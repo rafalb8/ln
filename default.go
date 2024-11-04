@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	defaultLog  Logger = New()
+	Default     Logger = New()
 	defaultPath        = func() string {
 		pcs := make([]uintptr, 1)
 		n := runtime.Callers(1, pcs)
@@ -16,62 +16,58 @@ var (
 	}()
 )
 
-func SetDefault(cfg Config) {
-	defaultLog = NewWithConfiguration(cfg)
-}
-
 func Log(level Level, msg string, attrs ...Attr) {
-	defaultLog.Log(context.Background(), level, msg, attrs)
+	Default.Log(context.Background(), level, msg, attrs)
 }
 
 func Trace(msg string, attrs ...Attr) {
-	defaultLog.Trace(msg, attrs...)
+	Default.Trace(msg, attrs...)
 }
 
 func Debug(msg string, attrs ...Attr) {
-	defaultLog.Debug(msg, attrs...)
+	Default.Debug(msg, attrs...)
 }
 
 func Info(msg string, attrs ...Attr) {
-	defaultLog.Info(msg, attrs...)
+	Default.Info(msg, attrs...)
 }
 
 func Warn(msg string, attrs ...Attr) {
-	defaultLog.Warn(msg, attrs...)
+	Default.Warn(msg, attrs...)
 }
 
 func Error(msg string, attrs ...Attr) {
-	defaultLog.Error(msg, attrs...)
+	Default.Error(msg, attrs...)
 }
 
 func Fatal(msg string, attrs ...Attr) {
-	defaultLog.Fatal(msg, attrs...)
+	Default.Fatal(msg, attrs...)
 }
 
 func LogCtx(ctx context.Context, level Level, msg string, attrs ...Attr) {
-	defaultLog.Log(ctx, level, msg, attrs)
+	Default.Log(ctx, level, msg, attrs)
 }
 
 func TraceCtx(ctx context.Context, msg string, attrs ...Attr) {
-	defaultLog.TraceCtx(ctx, msg, attrs...)
+	Default.TraceCtx(ctx, msg, attrs...)
 }
 
 func DebugCtx(ctx context.Context, msg string, attrs ...Attr) {
-	defaultLog.DebugCtx(ctx, msg, attrs...)
+	Default.DebugCtx(ctx, msg, attrs...)
 }
 
 func InfoCtx(ctx context.Context, msg string, attrs ...Attr) {
-	defaultLog.InfoCtx(ctx, msg, attrs...)
+	Default.InfoCtx(ctx, msg, attrs...)
 }
 
 func WarnCtx(ctx context.Context, msg string, attrs ...Attr) {
-	defaultLog.WarnCtx(ctx, msg, attrs...)
+	Default.WarnCtx(ctx, msg, attrs...)
 }
 
 func ErrorCtx(ctx context.Context, msg string, attrs ...Attr) {
-	defaultLog.ErrorCtx(ctx, msg, attrs...)
+	Default.ErrorCtx(ctx, msg, attrs...)
 }
 
 func FatalCtx(ctx context.Context, msg string, attrs ...Attr) {
-	defaultLog.FatalCtx(ctx, msg, attrs...)
+	Default.FatalCtx(ctx, msg, attrs...)
 }

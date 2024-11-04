@@ -23,7 +23,7 @@ type Record struct {
 func (r *Record) setCaller() {
 	// Get callers
 	pcs := make([]uintptr, 2)
-	n := runtime.Callers(5, pcs)
+	n := runtime.Callers(4, pcs)
 	pcs = pcs[:n]
 
 	frames := runtime.CallersFrames(pcs)
