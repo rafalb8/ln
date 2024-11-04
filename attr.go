@@ -2,9 +2,17 @@ package log
 
 import (
 	"time"
-
-	"golang.org/x/exp/constraints"
 )
+
+type Signed interface {
+	~int | ~int8 | ~int16 | ~int32 | ~int64
+}
+type Unsigned interface {
+	~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64
+}
+type Floats interface {
+	~float32 | ~float64
+}
 
 // An Attr is a key-value pair.
 type Attr struct {
@@ -23,17 +31,17 @@ func Bool(key string, v bool) Attr {
 }
 
 // Int returns int64 Attr
-func Int[T constraints.Signed](key string, v T) Attr {
+func Int[T Signed](key string, v T) Attr {
 	return Attr{Key: key, Value: int64(v)}
 }
 
 // Uint returns uint64 Attr
-func Uint[T constraints.Unsigned](key string, v T) Attr {
+func Uint[T Unsigned](key string, v T) Attr {
 	return Attr{Key: key, Value: uint64(v)}
 }
 
 // Float returns float64 Attr
-func Float[T constraints.Float](key string, v T) Attr {
+func Float[T Floats](key string, v T) Attr {
 	return Attr{Key: key, Value: float64(v)}
 }
 
