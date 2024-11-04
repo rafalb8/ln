@@ -16,7 +16,6 @@ type Config struct {
 	Output io.Writer
 }
 
-// defaults sets default value for fields that have not been set
 func (cfg *Config) defaults() {
 	if cfg.Level == nil {
 		lvl := LevelFrom(env.Get("LOG_LEVEL", "debug"))

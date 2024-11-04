@@ -10,7 +10,6 @@ import (
 )
 
 const (
-	// time.Format used by TextHandler
 	textTimeFormat = "15:04:05.000"
 
 	// format: <time> <level> <caller> <message> <attrs>

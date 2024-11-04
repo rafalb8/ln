@@ -57,63 +57,51 @@ func (l *Logger) Log(ctx context.Context, level Level, msg string, attrs []Attr)
 	l.handler.Handle(ctx, r)
 }
 
-// Logs with default logger at level TRACE
 func (l *Logger) Trace(msg string, attrs ...Attr) {
 	l.Log(context.Background(), LevelTrace, msg, attrs)
 }
 
-// Logs with default logger at level DEBUG
 func (l *Logger) Debug(msg string, attrs ...Attr) {
 	l.Log(context.Background(), LevelDebug, msg, attrs)
 }
 
-// Logs with default logger at level INFO
 func (l *Logger) Info(msg string, attrs ...Attr) {
 	l.Log(context.Background(), LevelInfo, msg, attrs)
 }
 
-// Logs with default logger at level WARN
 func (l *Logger) Warn(msg string, attrs ...Attr) {
 	l.Log(context.Background(), LevelWarn, msg, attrs)
 }
 
-// Logs with default logger at level ERROR
 func (l *Logger) Error(msg string, attrs ...Attr) {
 	l.Log(context.Background(), LevelError, msg, attrs)
 }
 
-// Logs with default logger at level FATAL
 func (l *Logger) Fatal(msg string, attrs ...Attr) {
 	l.Log(context.Background(), LevelFatal, msg, attrs)
 	l.panic(msg, attrs)
 }
 
-// Logs with default logger at level TRACE with given context
 func (l *Logger) TraceCtx(ctx context.Context, msg string, attrs ...Attr) {
 	l.Log(ctx, LevelTrace, msg, attrs)
 }
 
-// Logs with default logger at level DEBUG with given context
 func (l *Logger) DebugCtx(ctx context.Context, msg string, attrs ...Attr) {
 	l.Log(ctx, LevelDebug, msg, attrs)
 }
 
-// Logs with default logger at level INFO with given context
 func (l *Logger) InfoCtx(ctx context.Context, msg string, attrs ...Attr) {
 	l.Log(ctx, LevelInfo, msg, attrs)
 }
 
-// Logs with default logger at level WARN with given context
 func (l *Logger) WarnCtx(ctx context.Context, msg string, attrs ...Attr) {
 	l.Log(ctx, LevelWarn, msg, attrs)
 }
 
-// Logs with default logger at level ERROR with given context
 func (l *Logger) ErrorCtx(ctx context.Context, msg string, attrs ...Attr) {
 	l.Log(ctx, LevelError, msg, attrs)
 }
 
-// Logs with default logger at level FATAL with given context
 func (l *Logger) FatalCtx(ctx context.Context, msg string, attrs ...Attr) {
 	l.Log(ctx, LevelFatal, msg, attrs)
 	l.panic(msg, attrs)
