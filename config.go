@@ -8,10 +8,10 @@ import (
 )
 
 type Config struct {
-	Level      *Level
-	Format     string
-	Enviroment string
-	Multiline  *bool
+	Level       *Level
+	Format      string
+	Environment string
+	Multiline   *bool
 
 	Output io.Writer
 }
@@ -26,8 +26,8 @@ func (cfg *Config) defaults() {
 		cfg.Format = env.Get("LOG_FORMAT", "json")
 	}
 
-	if cfg.Enviroment == "" {
-		cfg.Enviroment = env.Get("ENVIRONMENT", "dev")
+	if cfg.Environment == "" {
+		cfg.Environment = env.Get("ENVIRONMENT", "dev")
 	}
 
 	if cfg.Multiline == nil {

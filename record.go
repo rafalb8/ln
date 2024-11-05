@@ -23,14 +23,13 @@ type Record struct {
 func (r *Record) setCaller() {
 	// Get callers
 	pcs := make([]uintptr, 2)
-	n := runtime.Callers(4, pcs)
-	pcs = pcs[:n]
+	runtime.Callers(4, pcs)
 
 	frames := runtime.CallersFrames(pcs)
-	frame, _ := frames.Next()
+	frame, more := frames.Next()
 
 	// If called from default.go, move to next frame
-	if frame.File == defaultPath {
+	if frame.File == defaultPath && more {
 		frame, _ = frames.Next()
 	}
 

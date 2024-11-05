@@ -51,7 +51,7 @@ func (l *Logger) Log(ctx context.Context, level Level, msg string, attrs []Attr)
 	r.setCaller()
 	r.Attrs = append([]Attr{
 		String("caller", r.Caller),
-		String("enviroment", l.config.Enviroment),
+		String("environment", l.config.Environment),
 	}, attrs...)
 
 	l.handler.Handle(ctx, r)
