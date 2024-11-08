@@ -73,7 +73,7 @@ func renderValue(buf *bytes.Buffer, val any) {
 	case float64:
 		buf.Write(strconv.AppendFloat(buf.AvailableBuffer(), val, 'e', -1, 64))
 	case string:
-		buf.Write(strconv.AppendQuote(buf.AvailableBuffer(), val))
+		buf.Write(strconv.AppendQuoteToASCII(buf.AvailableBuffer(), val))
 	case time.Time:
 		buf.WriteByte('"')
 		buf.Write(val.AppendFormat(buf.AvailableBuffer(), time.RFC3339))
@@ -82,6 +82,8 @@ func renderValue(buf *bytes.Buffer, val any) {
 		buf.Write(strconv.AppendQuote(buf.AvailableBuffer(), val.String()))
 	case error:
 		buf.Write(strconv.AppendQuote(buf.AvailableBuffer(), val.Error()))
+	case json.RawMessage:
+		buf.Write(val)
 	default:
 		err := json.NewEncoder(buf).Encode(val)
 		if err != nil {
