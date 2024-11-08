@@ -73,7 +73,7 @@ func renderValue(buf *bytes.Buffer, val any) {
 	case float64:
 		buf.Write(strconv.AppendFloat(buf.AvailableBuffer(), val, 'e', -1, 64))
 	case string:
-		buf.Write(strconv.AppendQuoteToASCII(buf.AvailableBuffer(), val))
+		buf.Write(strconv.AppendQuoteToGraphic(buf.AvailableBuffer(), val))
 	case time.Time:
 		buf.WriteByte('"')
 		buf.Write(val.AppendFormat(buf.AvailableBuffer(), time.RFC3339))
