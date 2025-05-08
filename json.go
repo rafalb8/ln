@@ -25,7 +25,7 @@ func (h *jsonHandler) Handle(ctx context.Context, r *Record) error {
 		String("msg", r.Message),
 	}, r.Attrs...)
 
-	_, err := h.Write(RenderJSON(attrs))
+	_, err := h.Write(RenderJSON(attrs, true))
 	return err
 }
 
@@ -33,14 +33,15 @@ var bufPool = sync.Pool{
 	New: func() any { return new(bytes.Buffer) },
 }
 
-func RenderJSON(attrs []Attr) []byte {
+func RenderJSON(attrs []Attr, nl bool) []byte {
 	buf := bufPool.Get().(*bytes.Buffer)
 	defer bufPool.Put(buf)
 	buf.Reset()
 
 	renderAttrs(buf, attrs)
-	buf.WriteByte('\n')
-
+	if nl {
+		buf.WriteByte('\n')
+	}
 	return buf.Bytes()
 }
 

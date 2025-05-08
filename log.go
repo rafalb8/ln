@@ -25,9 +25,12 @@ func NewWithConfiguration(cfg Config) Logger {
 	cfg.defaults()
 	var handler handler
 
-	if cfg.Format == "json" {
+	switch cfg.Format {
+	case "json":
 		handler = JSONHandler(cfg.Output)
-	} else {
+	case "simple":
+		handler = SimpleHandler(cfg.Output)
+	default:
 		handler = TextHandler(cfg.Output, *cfg.Multiline)
 	}
 

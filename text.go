@@ -18,7 +18,7 @@ const (
 
 type textHandler struct {
 	io.Writer
-	json func([]Attr) []byte
+	json func([]Attr, bool) []byte
 }
 
 func TextHandler(w io.Writer, multiline bool) *textHandler {
@@ -26,9 +26,9 @@ func TextHandler(w io.Writer, multiline bool) *textHandler {
 	marshaler := RenderJSON
 
 	if multiline {
-		marshaler = func(a []Attr) []byte {
+		marshaler = func(a []Attr, nl bool) []byte {
 			buf := &bytes.Buffer{}
-			json.Indent(buf, RenderJSON(a), "", "  ")
+			json.Indent(buf, RenderJSON(a, nl), "", "  ")
 			return buf.Bytes()
 		}
 	}
@@ -37,7 +37,7 @@ func TextHandler(w io.Writer, multiline bool) *textHandler {
 }
 
 func (h *textHandler) Handle(ctx context.Context, r *Record) error {
-	b := h.json(r.Attrs)
+	b := h.json(r.Attrs, false)
 	if len(b) <= 2 {
 		b = nil
 	}
