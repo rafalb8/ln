@@ -1,4 +1,4 @@
-package log_test
+package ln_test
 
 import (
 	"context"
@@ -7,27 +7,27 @@ import (
 	"testing"
 	"time"
 
-	log "github.com/rafalb8/ln"
+	"github.com/rafalb8/ln"
 )
 
 var (
 	ctx   = context.Background()
 	date  = time.Date(2000, 20, 20, 20, 20, 20, 20, time.UTC)
-	attrs = []log.Attr{
-		log.Group("group", log.Bool("bool", true)),
-		log.Int("int", 64),
-		log.Uint("uint", uint(128)),
-		log.Float("float", 1.23),
-		log.String("string", "str"),
-		log.Time("time", date),
-		log.Duration("duration", time.Since(date)),
-		log.Err(errors.New("error")),
-		log.Any("any", struct{}{}),
+	attrs = []ln.Attr{
+		ln.Group("group", ln.Bool("bool", true)),
+		ln.Int("int", 64),
+		ln.Uint("uint", uint(128)),
+		ln.Float("float", 1.23),
+		ln.String("string", "str"),
+		ln.Time("time", date),
+		ln.Duration("duration", time.Since(date)),
+		ln.Err(errors.New("error")),
+		ln.Any("any", struct{}{}),
 	}
 )
 
 func BenchmarkJSON(b *testing.B) {
-	jsonLogger := log.NewWithConfiguration(log.Config{
+	jsonLogger := ln.NewWithConfiguration(ln.Config{
 		Format: "json",
 		Output: io.Discard,
 	})
@@ -46,7 +46,7 @@ func BenchmarkJSON(b *testing.B) {
 }
 
 func BenchmarkText(b *testing.B) {
-	textLogger := log.NewWithConfiguration(log.Config{
+	textLogger := ln.NewWithConfiguration(ln.Config{
 		Format: "text",
 		Output: io.Discard,
 	})
