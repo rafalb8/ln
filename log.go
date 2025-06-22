@@ -64,10 +64,6 @@ func (l *Logger) Trace(msg string, attrs ...Attr) {
 	l.Log(context.Background(), LevelTrace, msg, attrs)
 }
 
-func (l *Logger) Debug(msg string, attrs ...Attr) {
-	l.Log(context.Background(), LevelDebug, msg, attrs)
-}
-
 func (l *Logger) Info(msg string, attrs ...Attr) {
 	l.Log(context.Background(), LevelInfo, msg, attrs)
 }
@@ -87,10 +83,6 @@ func (l *Logger) Fatal(msg string, attrs ...Attr) {
 
 func (l *Logger) TraceCtx(ctx context.Context, msg string, attrs ...Attr) {
 	l.Log(ctx, LevelTrace, msg, attrs)
-}
-
-func (l *Logger) DebugCtx(ctx context.Context, msg string, attrs ...Attr) {
-	l.Log(ctx, LevelDebug, msg, attrs)
 }
 
 func (l *Logger) InfoCtx(ctx context.Context, msg string, attrs ...Attr) {
