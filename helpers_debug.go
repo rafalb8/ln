@@ -1,4 +1,4 @@
-//go:build debug || !release
+//go:build debug
 
 package ln
 
@@ -7,10 +7,10 @@ import (
 	"os"
 )
 
-// PrintJSON prints value as a JSON on Stderr
-// Use only for debugging purposes
 func PrintJSON(x any) {
-	err := json.NewEncoder(os.Stderr).Encode(x)
+	enc := json.NewEncoder(os.Stderr)
+	enc.SetIndent("", "  ")
+	err := enc.Encode(x)
 	if err != nil {
 		Error("PrintJSON failed", Err(err))
 	}
