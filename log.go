@@ -31,7 +31,7 @@ func NewWithConfiguration(cfg Config) Logger {
 	case "simple":
 		handler = SimpleHandler(cfg.Output)
 	default:
-		handler = TextHandler(cfg.Output, *cfg.Multiline)
+		handler = TextHandler(cfg.Output, cfg.Multiline)
 	}
 
 	return Logger{
@@ -41,7 +41,7 @@ func NewWithConfiguration(cfg Config) Logger {
 }
 
 func (l *Logger) Log(ctx context.Context, level Level, msg string, attrs []Attr) {
-	if *l.config.Level > level {
+	if l.config.Level > level {
 		return
 	}
 

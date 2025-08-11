@@ -7,19 +7,26 @@ import (
 	"github.com/rafalb8/ln/util/env"
 )
 
+type MultilineMode uint8
+
+const (
+	MultilineEnv MultilineMode = iota
+	MultilineDisabled
+	MultilineEnabled
+)
+
 type Config struct {
-	Level       *Level
+	Level       Level
 	Format      string
 	Environment string
-	Multiline   *bool
+	Multiline   MultilineMode
 
 	Output io.Writer
 }
 
 func (cfg *Config) defaults() {
-	if cfg.Level == nil {
-		lvl := LevelFrom(env.Get("LOG_LEVEL", "debug"))
-		cfg.Level = &lvl
+	if cfg.Level == LevelUnknown {
+		cfg.Level = LevelFrom(env.Get("LOG_LEVEL", "debug"))
 	}
 
 	if cfg.Format == "" {
@@ -30,9 +37,13 @@ func (cfg *Config) defaults() {
 		cfg.Environment = env.Get("ENVIRONMENT", "dev")
 	}
 
-	if cfg.Multiline == nil {
+	if cfg.Multiline == MultilineEnv {
 		multiline := env.Get("LOG_MULTILINE", false)
-		cfg.Multiline = &multiline
+		if multiline {
+			cfg.Multiline = MultilineEnabled
+		} else {
+			cfg.Multiline = MultilineDisabled
+		}
 	}
 
 	if cfg.Output == nil {

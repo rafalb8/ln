@@ -4,10 +4,11 @@ import (
 	"fmt"
 )
 
-type Level int
+type Level uint8
 
 const (
-	LevelTrace Level = iota*4 - 8
+	LevelUnknown Level = iota
+	LevelTrace
 	LevelDebug
 	LevelInfo
 	LevelWarn
@@ -30,7 +31,7 @@ func (l Level) String() string {
 	case LevelFatal:
 		return "FATAL"
 	default:
-		return fmt.Sprintf("INFO%+d", l)
+		return fmt.Sprintf("UNK%+d", l)
 	}
 }
 
@@ -50,7 +51,7 @@ func (l Level) Color() string {
 	case LevelFatal:
 		return "\x1b[30;41;1mFATAL\x1b[0m"
 	default:
-		return fmt.Sprintf("\x1b[34;1mINFO%+d\x1b[0m", l)
+		return fmt.Sprintf("\x1b[34;1mUNK%+d\x1b[0m", l)
 	}
 }
 

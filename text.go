@@ -21,11 +21,11 @@ type textHandler struct {
 	json func([]Attr, bool) []byte
 }
 
-func TextHandler(w io.Writer, multiline bool) *textHandler {
+func TextHandler(w io.Writer, multiline MultilineMode) *textHandler {
 	// Choose if json.marshal must be idented or not
 	marshaler := RenderJSON
 
-	if multiline {
+	if multiline == MultilineEnabled {
 		marshaler = func(a []Attr, nl bool) []byte {
 			buf := &bytes.Buffer{}
 			json.Indent(buf, RenderJSON(a, nl), "", "  ")
