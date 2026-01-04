@@ -51,7 +51,7 @@ func (l *Logger) Log(ctx context.Context, level Level, msg string, attrs []Attr)
 	r.Time = time.Now()
 	r.Level = level
 	r.Message = msg
-	r.setCaller()
+	r.setCaller(l.config.CallerDepth)
 	r.Attrs = append([]Attr{
 		String("caller", r.Caller),
 		String("environment", l.config.Environment),

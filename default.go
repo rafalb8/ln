@@ -2,19 +2,10 @@ package ln
 
 import (
 	"context"
-	"runtime"
 )
 
 // Default logger
 var Default Logger = New()
-
-var defaultPath = func() string {
-	pcs := make([]uintptr, 1)
-	n := runtime.Callers(1, pcs)
-	pcs = pcs[:n]
-	frame, _ := runtime.CallersFrames(pcs).Next()
-	return frame.File
-}()
 
 func Log(level Level, msg string, attrs ...Attr) {
 	Default.Log(context.Background(), level, msg, attrs)

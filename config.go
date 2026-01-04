@@ -27,6 +27,7 @@ type Config struct {
 	Format      Format
 	Environment string
 	Multiline   Switch
+	CallerDepth int
 
 	Output io.Writer
 }

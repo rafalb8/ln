@@ -20,18 +20,12 @@ type Record struct {
 	Caller string
 }
 
-func (r *Record) setCaller() {
+func (r *Record) setCaller(skip int) {
 	// Get callers
-	pcs := make([]uintptr, 2)
-	runtime.Callers(4, pcs)
+	pcs := make([]uintptr, 1)
+	runtime.Callers(5+skip, pcs)
 
-	frames := runtime.CallersFrames(pcs)
-	frame, more := frames.Next()
-
-	// If called from default.go, move to next frame
-	if frame.File == defaultPath && more {
-		frame, _ = frames.Next()
-	}
-
+	// Extract caller frame
+	frame, _ := runtime.CallersFrames(pcs).Next()
 	r.Caller = fmt.Sprintf("%s:%d", frame.File, frame.Line)
 }
