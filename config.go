@@ -58,3 +58,33 @@ func (cfg *Config) defaults() {
 		cfg.Output = os.Stdout
 	}
 }
+
+func (cfg Config) override(config Config) Config {
+	out := cfg
+
+	if out.Level == 0 {
+		out.Level = config.Level
+	}
+
+	if out.Format == "" {
+		out.Format = config.Format
+	}
+
+	if out.Environment == "" {
+		out.Environment = config.Environment
+	}
+
+	if out.Multiline == None {
+		out.Multiline = config.Multiline
+	}
+
+	if out.CallerDepth == 0 {
+		out.CallerDepth = config.CallerDepth
+	}
+
+	if out.Output == nil {
+		out.Output = config.Output
+	}
+
+	return out
+}

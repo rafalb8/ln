@@ -40,6 +40,10 @@ func NewWithConfiguration(cfg Config) Logger {
 	}
 }
 
+func (l *Logger) Copy(overrides Config) Logger {
+	return NewWithConfiguration(l.config.override(overrides))
+}
+
 func (l *Logger) Log(ctx context.Context, level Level, msg string, attrs []Attr) {
 	if l.config.Level > level {
 		return
