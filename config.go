@@ -10,8 +10,9 @@ import (
 type Format string
 
 const (
-	Text Format = "text"
-	JSON Format = "json"
+	Text   Format = "text"
+	Simple Format = "simple"
+	JSON   Format = "json"
 )
 
 type Switch uint8
