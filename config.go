@@ -7,42 +7,48 @@ import (
 	"github.com/rafalb8/ln/util/env"
 )
 
-type MultilineMode uint8
+type Format string
 
 const (
-	MultilineEnv MultilineMode = iota
-	MultilineDisabled
-	MultilineEnabled
+	Text Format = "text"
+	JSON Format = "json"
+)
+
+type Switch uint8
+
+const (
+	None Switch = iota
+	On
+	Off
 )
 
 type Config struct {
 	Level       Level
-	Format      string
+	Format      Format
 	Environment string
-	Multiline   MultilineMode
+	Multiline   Switch
 
 	Output io.Writer
 }
 
 func (cfg *Config) defaults() {
-	if cfg.Level == LevelUnknown {
+	if cfg.Level == 0 {
 		cfg.Level = LevelFrom(env.Get("LOG_LEVEL", "debug"))
 	}
 
 	if cfg.Format == "" {
-		cfg.Format = env.Get("LOG_FORMAT", "json")
+		cfg.Format = env.Get[Format]("LOG_FORMAT", "text")
 	}
 
 	if cfg.Environment == "" {
 		cfg.Environment = env.Get("ENVIRONMENT", "dev")
 	}
 
-	if cfg.Multiline == MultilineEnv {
-		multiline := env.Get("LOG_MULTILINE", false)
-		if multiline {
-			cfg.Multiline = MultilineEnabled
+	if cfg.Multiline == None {
+		if env.Get("LOG_MULTILINE", false) {
+			cfg.Multiline = On
 		} else {
-			cfg.Multiline = MultilineDisabled
+			cfg.Multiline = Off
 		}
 	}
 

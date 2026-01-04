@@ -4,11 +4,10 @@ import (
 	"fmt"
 )
 
-type Level uint8
+type Level int8
 
 const (
-	LevelUnknown Level = iota
-	LevelTrace
+	LevelTrace Level = iota*4 - 7
 	LevelDebug
 	LevelInfo
 	LevelWarn
