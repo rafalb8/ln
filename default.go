@@ -20,6 +20,14 @@ func Log(level Level, msg string, attrs ...Attr) {
 	Default.Log(context.Background(), level, msg, attrs)
 }
 
+func Trace(msg string, attrs ...Attr) {
+	Default.Trace(msg, attrs...)
+}
+
+func Debug(msg string, attrs ...Attr) {
+	Default.Debug(msg, attrs...)
+}
+
 func Info(msg string, attrs ...Attr) {
 	Default.Info(msg, attrs...)
 }
@@ -38,6 +46,14 @@ func Fatal(msg string, attrs ...Attr) {
 
 func LogCtx(ctx context.Context, level Level, msg string, attrs ...Attr) {
 	Default.Log(ctx, level, msg, attrs)
+}
+
+func TraceCtx(ctx context.Context, msg string, attrs ...Attr) {
+	Default.TraceCtx(ctx, msg, attrs...)
+}
+
+func DebugCtx(ctx context.Context, msg string, attrs ...Attr) {
+	Default.DebugCtx(ctx, msg, attrs...)
 }
 
 func InfoCtx(ctx context.Context, msg string, attrs ...Attr) {
