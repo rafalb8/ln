@@ -4,16 +4,8 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"fmt"
 	"io"
 	"path/filepath"
-)
-
-const (
-	textTimeFormat = "15:04:05.000"
-
-	// format: <time> <level> <caller> <message> <attrs>
-	logFormatStr = "%s %s \x1b[90m%s\x1b[0m \x1b[97m%s %s\x1b[0m\n"
 )
 
 type textHandler struct {
@@ -42,12 +34,25 @@ func (h *textHandler) Handle(ctx context.Context, r *Record) error {
 		b = nil
 	}
 
-	_, err := fmt.Fprintf(h, logFormatStr,
-		r.Time.Format(textTimeFormat),
-		r.Level.Color(),
-		filepath.Base(r.Caller),
-		r.Message,
-		string(b),
-	)
+	buf := &bytes.Buffer{}
+	buf.WriteString(r.Time.Format("15:04:05.000"))
+	buf.WriteByte(' ')
+	buf.WriteString(r.Level.Color())
+	buf.WriteByte(' ')
+	if r.Caller != "" {
+		buf.WriteString("\x1b[90m")
+		buf.WriteString(filepath.Base(r.Caller))
+		buf.WriteString("\x1b[0m")
+		buf.WriteByte(' ')
+	}
+	buf.WriteString("\x1b[97m")
+	buf.WriteString(r.Message)
+	if len(b) > 0 {
+		buf.WriteByte(' ')
+		buf.Write(b)
+	}
+	buf.WriteString("\x1b[0m\n")
+
+	_, err := io.Copy(h, buf)
 	return err
 }

@@ -1,8 +1,8 @@
 package ln
 
 import (
+	"bytes"
 	"context"
-	"fmt"
 	"io"
 	"path/filepath"
 	"time"
@@ -30,13 +30,25 @@ func (h *simpleHandler) Handle(ctx context.Context, r *Record) error {
 		b = nil
 	}
 
-	// Format: <time> <level> [<caller>] -- <message> <attrs>
-	_, err := fmt.Fprintf(h, "%s %s [%s] -- %s %s\n",
-		r.Time.Format(time.RFC3339),
-		r.Level.String(),
-		filepath.Base(r.Caller),
-		r.Message,
-		string(b),
-	)
+	buf := &bytes.Buffer{}
+	buf.WriteString(r.Time.Format(time.RFC3339))
+	buf.WriteByte(' ')
+	buf.WriteString(r.Level.String())
+
+	if r.Caller != "" {
+		buf.WriteString(" [")
+		buf.WriteString(filepath.Base(r.Caller))
+		buf.WriteByte(']')
+	}
+
+	buf.WriteString(" -- ")
+	buf.WriteString(r.Message)
+	if len(b) > 0 {
+		buf.WriteByte(' ')
+		buf.Write(b)
+	}
+	buf.WriteByte('\n')
+
+	_, err := io.Copy(h, buf)
 	return err
 }

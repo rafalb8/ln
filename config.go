@@ -26,9 +26,11 @@ const (
 type Config struct {
 	Level       Level
 	Format      Format
-	Environment string
-	Multiline   Switch
 	CallerDepth int
+
+	// Switches
+	Multiline  Switch
+	HideCaller Switch
 
 	Output io.Writer
 }
@@ -42,16 +44,16 @@ func (cfg *Config) defaults() {
 		cfg.Format = env.Get[Format]("LOG_FORMAT", "text")
 	}
 
-	if cfg.Environment == "" {
-		cfg.Environment = env.Get("ENVIRONMENT", "dev")
-	}
-
 	if cfg.Multiline == None {
 		if env.Get("LOG_MULTILINE", false) {
 			cfg.Multiline = On
 		} else {
 			cfg.Multiline = Off
 		}
+	}
+
+	if cfg.HideCaller == None {
+		cfg.HideCaller = Off
 	}
 
 	if cfg.Output == nil {
@@ -70,12 +72,12 @@ func (cfg Config) override(config Config) Config {
 		out.Format = config.Format
 	}
 
-	if out.Environment == "" {
-		out.Environment = config.Environment
-	}
-
 	if out.Multiline == None {
 		out.Multiline = config.Multiline
+	}
+
+	if out.HideCaller == None {
+		out.HideCaller = config.HideCaller
 	}
 
 	if out.CallerDepth == 0 {
